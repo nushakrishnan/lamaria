@@ -13,6 +13,7 @@ from lamaria.utils.metrics import (
     calculate_control_point_recall,
     calculate_control_point_score,
 )
+from lamaria.utils.viz import write_aligned_reconstruction
 
 
 def run(
@@ -78,6 +79,8 @@ def run(
 
     score = calculate_control_point_score(result)
     recall = calculate_control_point_recall(result)
+
+    write_aligned_reconstruction(reconstruction, result, output_path / "aligned_reconstruction")
 
     logger.info(f"CP Score: {score:.4f}")
     logger.info(f"CP Recall @ 1m: {recall:.4f}")
