@@ -92,10 +92,22 @@ class OptOptions:
 
 
 @dataclass(slots=True)
+class OptRSOptions:
+    enable_rs: bool = False
+    readout_time_s: float = 0.0
+    time_offset_s: float = 0.0
+    optimize_readout: bool = False
+    optimize_time_offset: bool = False
+    interval_slack_s: float = 0.002
+    rs_camera_ids: list[int] = field(default_factory=list)
+
+
+@dataclass(slots=True)
 class VIOptimizerOptions:
     cam: OptCamOptions = field(default_factory=OptCamOptions)
     imu: OptIMUOptions = field(default_factory=OptIMUOptions)
     optim: OptOptions = field(default_factory=OptOptions)
+    rs: OptRSOptions = field(default_factory=OptRSOptions)
 
     @classmethod
     def load(cls, cfg: OmegaConf | None = None) -> VIOptimizerOptions:
@@ -106,10 +118,12 @@ class VIOptimizerOptions:
         cam = _structured_merge_to_obj(OptCamOptions, cfg.cam)
         imu = _structured_merge_to_obj(OptIMUOptions, cfg.imu)
         optim = _structured_merge_to_obj(OptOptions, cfg.general)
+        rs = _structured_merge_to_obj(OptRSOptions, cfg.get("rs"))
 
         return replace(
             base,
             cam=cam,
             imu=imu,
             optim=optim,
+            rs=rs,
         )
