@@ -41,3 +41,12 @@ optimization:
     gyro_infl: 1.0
     acc_infl: 1.0
     integration_noise_density: 0.05
+
+  rs:
+    enable_rs: false
+    readout_time_s: 0.0
+    time_offset_s: 0.0
+    optimize_readout: false
+    optimize_time_offset: false
+    interval_slack_s: 0.002
+    rs_camera_ids: []
